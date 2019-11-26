@@ -1,5 +1,5 @@
 export default class Movie {
-    constructor(
+  constructor (
         public id: number,
         public title: string,
         public titleEng: string,
@@ -21,5 +21,5 @@ export default class Movie {
         public synopsis?: string,
         public director?: string,
         public actor?: string
-    ){}
+  ) {}
 }

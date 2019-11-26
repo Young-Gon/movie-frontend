@@ -10,5 +10,5 @@ function initialiseStores(store: Store<any>): void {
 
 export {
   initialiseStores,
-  movieStore,
+  movieStore
 }
