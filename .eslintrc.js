@@ -11,5 +11,8 @@ module.exports = {
   rules: {
     "semi": ["error", "never"],
     "quotes": [2, "double", { "avoidEscape": false }],
+    "vue/multiline-html-element-content-newline": ["error", {
+        "ignores": ["pre", "textarea", "VueComponent"],
+    }]
   }
 }

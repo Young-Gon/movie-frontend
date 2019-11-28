@@ -1,10 +1,10 @@
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
-import { AxiosError } from 'axios'
-import { $axios } from '~/utils/api'
-import Movie from '@/src/Movie'
+import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators"
+import { AxiosError } from "axios"
+import { $axios } from "~/utils/api"
+import Movie from "@/src/Movie"
 
 @Module({
-  name: 'movie',
+  name: "movie",
   stateFactory: true,
   namespaced: true
 })
@@ -22,10 +22,10 @@ export default class MovieModule extends VuexModule {
     if (movieIndex == -1) { this.movieList.push(movie) } else { this.movieList[movieIndex] = movie }
   }
 
-  @Action({ commit: 'setMovieList' })
+  @Action({ commit: "setMovieList" })
   public async getMovieList () {
     try {
-      return await $axios.$get('/movie?type=1')
+      return await $axios.$get("/movie?type=1")
     } catch (error) {
       console.log(error)
 
@@ -36,13 +36,13 @@ export default class MovieModule extends VuexModule {
     }
   }
 
-  @Action({ commit: 'addMovie' })
+  @Action({ commit: "addMovie" })
   public async getMovieDetail (movieId: number) {
     return await $axios.$get(`/movie/${movieId}`)
   }
 
-  @Action({ commit: 'addMovie' })
+  @Action({ commit: "addMovie" })
   public async saveMovie (movie: Movie) {
-    return await $axios.$post('/movie', movie)
+    return await $axios.$post("/movie", movie)
   }
 }
