@@ -8,11 +8,7 @@
         <v-container>
           <v-row>
             <v-col cols="12" sm="6" md="4">
-              <v-text-field
-                v-model="movie.title"
-                label="제목*"
-                required
-              />
+              <v-text-field v-model="movie.title" label="제목*" required />
             </v-col>
             <v-col cols="12" sm="6" md="4">
               <v-text-field
@@ -30,28 +26,16 @@
               />
             </v-col>
             <v-col cols="12" sm="6">
-              <v-text-field
-                v-model="movie.thumb"
-                label="썸네일"
-              />
+              <v-text-field v-model="movie.thumb" label="썸네일" />
             </v-col>
             <v-col cols="12" sm="6">
-              <v-text-field
-                v-model="movie.image"
-                label="포스터"
-              />
+              <v-text-field v-model="movie.image" label="포스터" />
             </v-col>
             <v-col cols="12" sm="6" md="4">
-              <v-text-field
-                v-model="movie.director"
-                label="감독"
-              />
+              <v-text-field v-model="movie.director" label="감독" />
             </v-col>
             <v-col cols="12" sm="6" md="4">
-              <v-text-field
-                v-model="movie.actor"
-                label="배우"
-              />
+              <v-text-field v-model="movie.actor" label="배우" />
             </v-col>
             <v-col cols="12" sm="6" md="4">
               <v-text-field
@@ -141,10 +125,7 @@
               </v-menu>
             </v-col>
             <v-col cols="12" sm="6">
-              <v-text-field
-                v-model="movie.genre"
-                label="장르"
-              />
+              <v-text-field v-model="movie.genre" label="장르" />
             </v-col>
             <v-col>
               <v-textarea
@@ -194,7 +175,7 @@ export default class CreateMovieDialog extends Vue {
 
   @Watch("movieId")
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async onMovieIdChanged (newId: number, oldId: number) {
+  public async onMovieIdChanged(newId: number, oldId: number) {
     if (newId !== 0) {
       console.log(`this.movieId=${this.movieId}`)
       try {
@@ -214,7 +195,7 @@ export default class CreateMovieDialog extends Vue {
     }
   }
 
-  public async onClickCreateMovie () {
+  public async onClickCreateMovie() {
     try {
       await movieStore.saveMovie(this.movie)
     } catch (error) {

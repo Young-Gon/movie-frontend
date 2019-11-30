@@ -1,8 +1,15 @@
 <template>
   <v-container fluid grid-list-xl>
     <v-layout wrap justify-space-around>
-      <v-flex v-for="movie in this.$store.state.movie.movieList" :key="movie.id">
-        <movie-card :movie="movie" :dialog.sync="dialog" :dialog-movie-id.sync="dialogMovieId" />
+      <v-flex
+        v-for="movie in this.$store.state.movie.movieList"
+        :key="movie.id"
+      >
+        <movie-card
+          :movie="movie"
+          :dialog.sync="dialog"
+          :dialog-movie-id.sync="dialogMovieId"
+        />
       </v-flex>
     </v-layout>
     <v-btn
@@ -13,11 +20,18 @@
       bottom
       right
       fixed
-      @click.stop="dialog = true;dialogMovieId=0"
+      @click.stop="
+        dialog = true
+        dialogMovieId = 0
+      "
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
-    <create-movie-dialog v-model="dialog" :movie-id="dialogMovieId" :dialog.sync="dialog" />
+    <create-movie-dialog
+      v-model="dialog"
+      :movie-id="dialogMovieId"
+      :dialog.sync="dialog"
+    />
   </v-container>
 </template>
 
@@ -34,10 +48,10 @@ import MovieCard from "@/components/movie-card.vue"
   }
 })
 export default class MyComponent extends Vue {
-  dialogMovieId: number = 0;
-  dialog: boolean = false;
+  dialogMovieId: number = 0
+  dialog: boolean = false
 
-  created () {
+  created() {
     movieStore.getMovieList()
   }
 }

@@ -60,7 +60,7 @@ export default class MovieCard extends Vue {
   @Prop()
   private movie!: Movie
 
-  public onClickEditMovie () {
+  public onClickEditMovie() {
     this.dialogname = true
     this.movieId = this.movie.id
   }

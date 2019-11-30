@@ -4,11 +4,8 @@ import MovieModule from "~/store/movie"
 
 let movieStore: MovieModule
 
-function initialiseStores (store: Store<any>): void {
+function initialiseStores(store: Store<any>): void {
   movieStore = getModule(MovieModule, store)
 }
 
-export {
-  initialiseStores,
-  movieStore
-}
+export { initialiseStores, movieStore }

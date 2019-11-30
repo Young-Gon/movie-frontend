@@ -5,14 +5,13 @@ module.exports = {
     node: true
   },
   extends: [
-    '@nuxtjs/eslint-config-typescript'
+    "@nuxtjs",
+    "@nuxtjs/eslint-config-typescript",
+    "prettier",
+    "prettier/vue",
+    "plugin:prettier/recommended"
   ],
+  plugins: ["prettier"],
   // add your custom rules here
-  rules: {
-    "semi": ["error", "never"],
-    "quotes": [2, "double", { "avoidEscape": false }],
-    "vue/multiline-html-element-content-newline": ["error", {
-        "ignores": ["pre", "textarea", "VueComponent"],
-    }]
-  }
+  rules: {}
 }
