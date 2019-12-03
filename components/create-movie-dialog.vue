@@ -222,9 +222,11 @@ export default class CreateMovieDialog extends Vue {
   private movie: Movie = new Movie(0, "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
   @Watch("dialog")
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async onMovieIdChanged(newId: boolean, oldId: boolean) {
-    if (newId === true && this.movieId !== 0) {
+  public async onMovieIdChanged(dialog: boolean) {
+    if (dialog === false) {
+      return
+    }
+    if (this.movieId !== 0) {
       console.log(`this.movieId=${this.movieId}`)
       try {
         this.movie = await $axios.$get(`/movie/${this.movieId}`)
@@ -240,6 +242,9 @@ export default class CreateMovieDialog extends Vue {
       }
     } else {
       this.movie = new Movie(0, "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0)
+      ;(this.$refs.form as Vue & {
+        resetValidation: () => void
+      }).resetValidation()
     }
   }
 
