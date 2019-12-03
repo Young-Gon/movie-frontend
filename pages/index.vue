@@ -13,7 +13,7 @@
       </v-flex>
     </v-layout>
     <v-btn
-      color="pink"
+      color="accent"
       fab
       large
       dark

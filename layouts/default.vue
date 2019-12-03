@@ -1,6 +1,6 @@
 <template>
-  <v-app dark>
-    <v-app-bar fixed app>
+  <v-app>
+    <v-app-bar fixed app dark color="primary">
       <v-toolbar-title>Movie</v-toolbar-title>
       <v-spacer />
       <v-btn icon>

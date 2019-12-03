@@ -1,46 +1,55 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card class="mx-auto" max-width="400" :elevation="hover ? 12 : 2">
+    <v-card
+      class="mx-auto"
+      max-width="300"
+      max-height="450px"
+      :elevation="hover ? 12 : 2"
+    >
       <v-img
         class="white--text align-end"
-        height="200px"
-        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+        :lazy-src="movie.thumb"
+        :src="movie.image"
       >
-        <v-list-item class="grow">
-          <v-list-item-content>
-            <v-card-title>{{ movie.title }}</v-card-title>
-          </v-list-item-content>
-          <v-row align="center" justify="end">
-            <v-btn icon>
-              <v-icon>mdi-heart</v-icon>
-            </v-btn>
+        <v-card dark color="rgba(0,0,0,.8)">
+          <v-card-title>
+            {{ movie.title }}
+            <v-row align="center" justify="end">
+              <v-btn icon>
+                <v-icon>mdi-trash-can</v-icon>
+              </v-btn>
 
-            <v-btn icon @click="onClickEditMovie()">
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-          </v-row>
-        </v-list-item>
+              <v-btn icon @click="onClickEditMovie()">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+            </v-row>
+          </v-card-title>
+
+          <v-card-subtitle class="pb-0">
+            <div v-if="movie.genre">장르: {{ movie.genre }}</div>
+            <div v-if="movie.director">감독: {{ movie.director }}</div>
+            <div v-if="movie.actor">출연: {{ movie.actor }}</div>
+          </v-card-subtitle>
+          <div class="ml-3">
+            <v-rating
+              v-model="movie.userRating"
+              background-color="orange lighten-3"
+              color="orange"
+              hover
+              half-increments
+              readonly
+              dense
+            />
+          </div>
+          <v-list-item three-line dense disabled>
+            <v-list-item-content>
+              <v-list-item-subtitle>
+                {{ movie.synopsis }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-card>
       </v-img>
-
-      <v-card-subtitle class="pb-0">
-        Number 10
-      </v-card-subtitle>
-
-      <v-card-text class="text--primary">
-        <div>Whitehaven Beach</div>
-
-        <div>Whitsunday Island, Whitsunday Islands</div>
-      </v-card-text>
-
-      <v-card-actions>
-        <v-btn color="orange" text>
-          Share
-        </v-btn>
-
-        <v-btn color="orange" text>
-          Explore
-        </v-btn>
-      </v-card-actions>
     </v-card>
   </v-hover>
 </template>
