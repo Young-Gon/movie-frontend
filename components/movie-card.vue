@@ -9,13 +9,17 @@
       <v-img
         class="white--text align-end"
         :lazy-src="movie.thumb"
-        :src="movie.image"
+        :src="
+          movie.image
+            ? movie.image
+            : 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'
+        "
       >
         <v-card dark color="rgba(0,0,0,.8)">
           <v-card-title>
             {{ movie.title }}
             <v-row align="center" justify="end">
-              <v-btn icon>
+              <v-btn icon @click="onClickDeleteMovie()">
                 <v-icon>mdi-trash-can</v-icon>
               </v-btn>
 
@@ -60,18 +64,25 @@ import Movie from "../src/movie"
 
 @Component
 export default class MovieCard extends Vue {
-  @PropSync("dialog")
-  private dialogname!: boolean
+  @PropSync("createDialog")
+  private dialogCreate!: boolean
 
   @PropSync("dialogMovieId")
   private movieId!: number
+
+  @PropSync("deleteDialog")
+  private dialogDelete!: boolean
 
   @Prop()
   private movie!: Movie
 
   public onClickEditMovie() {
-    this.dialogname = true
+    this.dialogCreate = true
     this.movieId = this.movie.id
+  }
+
+  public onClickDeleteMovie() {
+    this.dialogDelete = true
   }
 }
 </script>

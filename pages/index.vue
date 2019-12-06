@@ -7,7 +7,8 @@
       >
         <movie-card
           :movie="movie"
-          :dialog.sync="dialog"
+          :create-dialog.sync="createDialog"
+          :delete-dialog.sync="deleteDialog"
           :dialog-movie-id.sync="dialogMovieId"
         />
       </v-flex>
@@ -21,16 +22,19 @@
       right
       fixed
       @click.stop="
-        dialog = true
+        createDialog = true
         dialogMovieId = 0
       "
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
     <create-movie-dialog
-      v-model="dialog"
       :movie-id="dialogMovieId"
-      :dialog.sync="dialog"
+      :dialog.sync="createDialog"
+    />
+    <delete-movie-dialog
+      :movie-id="dialogMovieId"
+      :dialog.sync="deleteDialog"
     />
   </v-container>
 </template>
@@ -39,17 +43,20 @@
 import { Vue, Component } from "vue-property-decorator"
 import { movieStore } from "~/store"
 import CreateMovieDialog from "@/components/create-movie-dialog.vue"
+import DeleteMovieDialog from "@/components/delete-movie-dialog.vue"
 import MovieCard from "@/components/movie-card.vue"
 
 @Component({
   components: {
     CreateMovieDialog,
+    DeleteMovieDialog,
     MovieCard
   }
 })
 export default class MyComponent extends Vue {
   dialogMovieId: number = 0
-  dialog: boolean = false
+  createDialog: boolean = false
+  deleteDialog: boolean = false
 
   created() {
     movieStore.getMovieList()

@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialogname" max-width="800">
     <v-card>
-      <v-card-title class="headline">
+      <v-card-title class="headline grey lighten-2">
         Create Movie
       </v-card-title>
       <v-card-text>
@@ -222,23 +222,29 @@ export default class CreateMovieDialog extends Vue {
   private movie: Movie = new Movie(0, "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
   @Watch("dialog")
-  public async onMovieIdChanged(dialog: boolean) {
+  public async onDialogShow(dialog: boolean) {
     if (dialog === false) {
       return
     }
     if (this.movieId !== 0) {
-      console.log(`this.movieId=${this.movieId}`)
       try {
         this.movie = await $axios.$get(`/movie/${this.movieId}`)
         // movieStore.addMovie(this.movie)
       } catch (error) {
         console.log(error)
 
-        this.$notify({
-          title: `code: ${error.response.status}`,
-          type: "error",
-          text: error.response.data.message
-        })
+        if (error.response !== undefined) {
+          this.$notify({
+            title: `code: ${error.response.status}`,
+            type: "error",
+            text: error.response.data.message
+          })
+        } else {
+          this.$notify({
+            type: "error",
+            text: error
+          })
+        }
       }
     } else {
       this.movie = new Movie(0, "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -254,18 +260,8 @@ export default class CreateMovieDialog extends Vue {
     }
     try {
       await movieStore.saveMovie(this.movie)
-    } catch (error) {
-      console.log(error)
-
-      if (error.isAxiosError) {
-        this.$notify({
-          title: `code: ${error.response.status}`,
-          type: "error",
-          text: error.response.data.message
-        })
-      }
-    }
-    this.dialogname = false
+      this.dialogname = false
+    } catch (error) {}
   }
 }
 </script>

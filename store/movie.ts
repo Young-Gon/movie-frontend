@@ -1,7 +1,7 @@
 import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators"
-import { AxiosError } from "axios"
 import { $axios } from "~/utils/api"
 import Movie from "@/src/Movie"
+import Vue from "vue"
 
 @Module({
   name: "movie",
@@ -26,6 +26,14 @@ export default class MovieModule extends VuexModule {
     }
   }
 
+  @Mutation
+  public removeMovie(movieId: number) {
+    const movieIndex = this.movieList.findIndex((it) => it.id == movieId)
+    if (movieIndex != -1) {
+      this.movieList.splice(movieIndex)
+    }
+  }
+
   @Action({ commit: "setMovieList" })
   public async getMovieList() {
     try {
@@ -33,20 +41,63 @@ export default class MovieModule extends VuexModule {
     } catch (error) {
       console.log(error)
 
-      if (error.isAxiosError) {
-        const axiosError = error as AxiosError
-        axiosError.code
+      if (error.response !== undefined) {
+        Vue.notify({
+          title: `code: ${error.response.status}`,
+          type: "error",
+          text: error.response.data.message
+        })
+      } else {
+        Vue.notify({
+          type: "error",
+          text: error
+        })
       }
     }
   }
 
   @Action({ commit: "addMovie" })
-  public async getMovieDetail(movieId: number) {
-    return await $axios.$get(`/movie/${movieId}`)
+  public async saveMovie(movie: Movie) {
+    try {
+      return await $axios.$post("/movie", movie)
+    } catch (error) {
+      console.log(error)
+
+      if (error.response !== undefined) {
+        Vue.notify({
+          title: `code: ${error.response.status}`,
+          type: "error",
+          text: error.response.data.message
+        })
+      } else {
+        Vue.notify({
+          type: "error",
+          text: error
+        })
+      }
+    }
   }
 
-  @Action({ commit: "addMovie" })
-  public async saveMovie(movie: Movie) {
-    return await $axios.$post("/movie", movie)
+  @Action({ commit: "removeMovie" })
+  public async deleteMovie(movieId: number) {
+    try {
+      await $axios.$delete(`/movie/${movieId}`)
+      return movieId
+    } catch (error) {
+      console.log(error)
+
+      if (error.response !== undefined) {
+        Vue.notify({
+          title: `code: ${error.response.status}`,
+          type: "error",
+          text: error.response.data.message
+        })
+      } else {
+        Vue.notify({
+          type: "error",
+          text: error
+        })
+      }
+    }
   }
 }
