@@ -1,7 +1,7 @@
 <template>
-  <v-dialog v-model="dialogname" max-width="500">
+  <v-dialog v-model="showDialog" max-width="500">
     <v-card>
-      <v-card-title class="headline grey lighten-2">
+      <v-card-title>
         Delete Movie
       </v-card-title>
       <v-card-text>
@@ -9,7 +9,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer />
-        <v-btn color="green darken-1" text @click="dialogname = false">
+        <v-btn color="green darken-1" text @click="showDialog = false">
           취소
         </v-btn>
         <v-btn color="error" text @click="onClickDeleteMovie()">
@@ -26,15 +26,15 @@ import { movieStore } from "../store"
 
 @Component
 export default class DeleteMovieDialog extends Vue {
-  @PropSync("dialog")
-  private dialogname!: boolean
+  @PropSync("isShow")
+  private showDialog!: boolean
 
   @Prop()
   private movieId!: number
 
   public onClickDeleteMovie() {
     movieStore.deleteMovie(this.movieId)
-    this.dialogname = false
+    this.showDialog = false
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialogname" max-width="800">
+  <v-dialog v-model="showDialog" max-width="800">
     <v-card>
       <v-card-title class="headline grey lighten-2">
         Create Movie
@@ -190,7 +190,7 @@
       <v-card-actions>
         <v-spacer />
 
-        <v-btn color="green darken-1" text @click="dialogname = false">
+        <v-btn color="green darken-1" text @click="showDialog = false">
           Disagree
         </v-btn>
 
@@ -213,17 +213,17 @@ export default class CreateMovieDialog extends Vue {
   valid: boolean = false
   datePicker: boolean = false
 
-  @PropSync("dialog")
-  private dialogname!: boolean
+  @PropSync("isShow")
+  private showDialog!: boolean
 
   @Prop()
   private movieId!: number
 
   private movie: Movie = new Movie(0, "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
-  @Watch("dialog")
-  public async onDialogShow(dialog: boolean) {
-    if (dialog === false) {
+  @Watch("isShow")
+  public async onDialogShow(isShow: boolean) {
+    if (isShow === false) {
       return
     }
     if (this.movieId !== 0) {
@@ -260,7 +260,7 @@ export default class CreateMovieDialog extends Vue {
     }
     try {
       await movieStore.saveMovie(this.movie)
-      this.dialogname = false
+      this.showDialog = false
     } catch (error) {}
   }
 }
