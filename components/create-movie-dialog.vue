@@ -173,6 +173,29 @@
               <v-col cols="12" sm="6">
                 <v-text-field v-model="movie.genre" label="장르" />
               </v-col>
+              <v-col cols="12">
+                <v-card>
+                  <v-container fluid>
+                    <v-row class="fill-width">
+                      <v-col v-for="n in 9" :key="n" cols="4">
+                        <v-card flat tile class="d-flex">
+                          <v-img
+                            :src="
+                              `https://picsum.photos/500/300?image=${n * 5 +
+                                10}`
+                            "
+                            :lazy-src="
+                              `https://picsum.photos/10/6?image=${n * 5 + 10}`
+                            "
+                            aspect-ratio="1"
+                            class="grey lighten-2"
+                          ></v-img>
+                        </v-card>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card>
+              </v-col>
               <v-col>
                 <v-textarea
                   v-model="movie.synopsis"
@@ -265,3 +288,10 @@ export default class CreateMovieDialog extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.fill-width {
+  overflow-x: auto;
+  flex-wrap: nowrap;
+}
+</style>
