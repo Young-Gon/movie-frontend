@@ -175,22 +175,68 @@
               </v-col>
               <v-col cols="12">
                 <v-card>
+                  <v-card-title>
+                    Photos
+                  </v-card-title>
                   <v-container fluid>
-                    <v-row class="fill-width">
-                      <v-col v-for="n in 9" :key="n" cols="4">
-                        <v-card flat tile class="d-flex">
-                          <v-img
-                            :src="
-                              `https://picsum.photos/500/300?image=${n * 5 +
-                                10}`
-                            "
-                            :lazy-src="
-                              `https://picsum.photos/10/6?image=${n * 5 + 10}`
-                            "
-                            aspect-ratio="1"
-                            class="grey lighten-2"
-                          ></v-img>
-                        </v-card>
+                    <v-row>
+                      <v-col>
+                        <v-text-field v-model="photoUrl" label="URL" />
+                      </v-col>
+                      <v-col cols="2">
+                        <v-btn
+                          color="green darken-1"
+                          text
+                          @click="onClickAddPhoto()"
+                        >
+                          ADD
+                        </v-btn>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col class="d-flex flex-nowrap">
+                        <template v-for="(photo, index) in photoList">
+                          <v-hover v-slot:default="{ hover }" :key="index">
+                            <v-card
+                              class="d-flex mb-6 margin-right"
+                              flat
+                              tile
+                              :elevation="hover ? 12 : 2"
+                            >
+                              <v-img
+                                :src="photo"
+                                height="74"
+                                width="74"
+                                aspect-ratio="1"
+                                class="grey lighten-2"
+                              >
+                                <v-row
+                                  class="fill-height flex-column"
+                                  justify="space-between"
+                                >
+                                  <div class="align-self-end mr-3">
+                                    <v-btn
+                                      :class="{ 'show-btns': hover }"
+                                      :color="hover ? 'red' : 'transparent'"
+                                      fab
+                                      elevation="0"
+                                      x-small
+                                      dark
+                                      @click="onClickClosePhoto(index)"
+                                    >
+                                      <v-icon
+                                        :class="{ 'show-btns': hover }"
+                                        color="transparent"
+                                      >
+                                        close
+                                      </v-icon>
+                                    </v-btn>
+                                  </div>
+                                </v-row>
+                              </v-img>
+                            </v-card>
+                          </v-hover>
+                        </template>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -242,7 +288,9 @@ export default class CreateMovieDialog extends Vue {
   @Prop()
   private movieId!: number
 
-  private movie: Movie = new Movie(0, "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0)
+  private movie: Movie = new Movie()
+
+  private photoUrl: string = ""
 
   @Watch("isShow")
   public async onDialogShow(isShow: boolean) {
@@ -270,7 +318,7 @@ export default class CreateMovieDialog extends Vue {
         }
       }
     } else {
-      this.movie = new Movie(0, "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0)
+      this.movie = new Movie()
       ;(this.$refs.form as Vue & {
         resetValidation: () => void
       }).resetValidation()
@@ -286,6 +334,30 @@ export default class CreateMovieDialog extends Vue {
       this.showDialog = false
     } catch (error) {}
   }
+
+  public onClickAddPhoto() {
+    if ((this.movie.photos?.length ?? 0) > 0) {
+      this.movie.photos += `,${this.photoUrl}`
+    } else {
+      this.movie.photos = this.photoUrl
+    }
+    this.photoUrl = ""
+  }
+
+  get photoList() {
+    return this.movie.photos?.split(",") ?? []
+  }
+
+  public onClickClosePhoto(index: number) {
+    const newPhotoList = this.movie.photos?.split(",") ?? []
+    newPhotoList.splice(index, 1)
+    this.movie.photos =
+      newPhotoList.length === 0 ? undefined : newPhotoList.join()
+  }
+
+  public onLoadImageFailed(event: string) {
+    console.log(event)
+  }
 }
 </script>
 
@@ -293,5 +365,13 @@ export default class CreateMovieDialog extends Vue {
 .fill-width {
   overflow-x: auto;
   flex-wrap: nowrap;
+}
+
+.margin-right {
+  margin-right: 12px;
+}
+
+.show-btns {
+  color: rgba(255, 255, 255, 1) !important;
 }
 </style>
