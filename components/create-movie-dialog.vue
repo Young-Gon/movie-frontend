@@ -242,6 +242,75 @@
                   </v-container>
                 </v-card>
               </v-col>
+              <v-col cols="12">
+                <v-card>
+                  <v-card-title>
+                    Video
+                  </v-card-title>
+                  <v-container fluid>
+                    <v-row>
+                      <v-col>
+                        <v-text-field v-model="videoUrl" label="Youtube URL" />
+                      </v-col>
+                      <v-col cols="2">
+                        <v-btn
+                          color="green darken-1"
+                          text
+                          @click="onClickAddVideo()"
+                        >
+                          ADD
+                        </v-btn>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col class="d-flex flex-nowrap">
+                        <template v-for="(video, index) in videoList">
+                          <v-hover v-slot:default="{ hover }" :key="index">
+                            <v-card
+                              class="d-flex mb-6 margin-right"
+                              flat
+                              tile
+                              :elevation="hover ? 12 : 2"
+                            >
+                              <v-img
+                                :src="video"
+                                height="74"
+                                width="74"
+                                aspect-ratio="1"
+                                class="grey lighten-2"
+                              >
+                                <v-row
+                                  class="fill-height flex-column"
+                                  justify="space-between"
+                                >
+                                  <div class="align-self-end mr-3">
+                                    <v-btn
+                                      :class="{ 'show-btns': hover }"
+                                      :color="hover ? 'red' : 'transparent'"
+                                      fab
+                                      elevation="0"
+                                      x-small
+                                      dark
+                                      @click="onClickClosevideo(index)"
+                                    >
+                                      <v-icon
+                                        :class="{ 'show-btns': hover }"
+                                        color="transparent"
+                                      >
+                                        close
+                                      </v-icon>
+                                    </v-btn>
+                                  </div>
+                                </v-row>
+                              </v-img>
+                            </v-card>
+                          </v-hover>
+                        </template>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card>
+              </v-col>
               <v-col>
                 <v-textarea
                   v-model="movie.synopsis"
@@ -291,6 +360,8 @@ export default class CreateMovieDialog extends Vue {
   private movie: Movie = new Movie()
 
   private photoUrl: string = ""
+
+  private videoUrl: string = ""
 
   @Watch("isShow")
   public async onDialogShow(isShow: boolean) {
@@ -357,6 +428,33 @@ export default class CreateMovieDialog extends Vue {
 
   public onLoadImageFailed(event: string) {
     console.log(event)
+  }
+
+  get videoList() {
+    return (
+      this.movie.videos?.split(",").map((url: string) => {
+        return `https://i.ytimg.com/vi/${url.replace(
+          /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?/g,
+          ""
+        )}/default.jpg`
+      }) ?? []
+    )
+  }
+
+  public onClickAddVideo() {
+    if ((this.movie.videos?.length ?? 0) > 0) {
+      this.movie.videos += `,${this.videoUrl}`
+    } else {
+      this.movie.videos = this.videoUrl
+    }
+    this.videoUrl = ""
+  }
+
+  public onClickCloseVideo(index: number) {
+    const newVideoList = this.movie.videos?.split(",") ?? []
+    newVideoList.splice(index, 1)
+    this.movie.videos =
+      newVideoList.length === 0 ? undefined : newVideoList.join()
   }
 }
 </script>
