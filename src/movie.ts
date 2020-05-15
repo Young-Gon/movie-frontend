@@ -1,7 +1,7 @@
 export default class Movie {
   public id: number = 0
   public title: string = ""
-  public titleEng: string = ""
+  public date: string = ""
   public userRating: number = 0
   public audienceRating: number = 0
   public reviewerRating: number = 0
@@ -11,7 +11,7 @@ export default class Movie {
   public duration: number = 0
   public audience: number = 0
   public dislike: number = 0
-  public date?: string
+  public titleEng?: string
   public thumb?: string
   public image?: string
   public photos?: string

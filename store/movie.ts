@@ -1,7 +1,7 @@
 import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators"
+import Vue from "vue"
 import { $axios } from "~/utils/api"
 import Movie from "@/src/Movie"
-import Vue from "vue"
 
 @Module({
   name: "movie",
@@ -18,8 +18,8 @@ export default class MovieModule extends VuexModule {
 
   @Mutation
   public addMovie(movie: Movie) {
-    const movieIndex = this.movieList.findIndex((it) => it.id == movie.id)
-    if (movieIndex == -1) {
+    const movieIndex = this.movieList.findIndex((it) => it.id === movie.id)
+    if (movieIndex === -1) {
       this.movieList.push(movie)
     } else {
       this.movieList[movieIndex] = movie
@@ -28,8 +28,8 @@ export default class MovieModule extends VuexModule {
 
   @Mutation
   public removeMovie(movieId: number) {
-    const movieIndex = this.movieList.findIndex((it) => it.id == movieId)
-    if (movieIndex != -1) {
+    const movieIndex = this.movieList.findIndex((it) => it.id === movieId)
+    if (movieIndex !== -1) {
       this.movieList.splice(movieIndex)
     }
   }
@@ -59,7 +59,9 @@ export default class MovieModule extends VuexModule {
   @Action({ commit: "addMovie" })
   public async saveMovie(movie: Movie) {
     try {
-      return await $axios.$post("/movie", movie)
+      const result: Movie = await $axios.$post("/movie", movie)
+      console.log(`movie=${result}`)
+      return result
     } catch (error) {
       console.log(error)
 

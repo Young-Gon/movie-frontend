@@ -156,9 +156,10 @@
                   <template v-slot:activator="{ on }">
                     <v-text-field
                       v-model="movie.date"
-                      label="출시일"
+                      label="출시일*"
                       prepend-icon="event"
                       readonly
+                      required
                       v-on="on"
                     />
                   </template>

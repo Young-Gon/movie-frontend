@@ -1,26 +1,20 @@
 <template>
-  <v-card class="mx-auto" flat max-width="1200" color="transparent">
-    <v-container fluid grid-list-xl>
-      <v-layout wrap justify-space-around>
-        <v-flex
-          v-for="movie in this.$store.state.movie.movieList"
-          :key="movie.id"
-        >
-          <movie-card
-            :movie="movie"
-            :create-dialog.sync="showCreateDialog"
-            :delete-dialog.sync="showDeleteDialog"
-            :dialog-movie-id.sync="dialogMovieId"
-          />
-        </v-flex>
-        <v-flex
-          v-for="movie in this.$store.state.movie.movieList"
-          :key="movie.id"
-          class="flex-empty"
-        >
-          <div></div>
-        </v-flex>
-      </v-layout>
+  <v-card class="mx-auto" flat max-width="1200">
+    <v-container fluid>
+      <v-row>
+        <v-col cols="12">
+          <v-row>
+            <movie-card
+              v-for="movie in this.$store.state.movie.movieList"
+              :key="movie.id"
+              :movie="movie"
+              :create-dialog.sync="showCreateDialog"
+              :delete-dialog.sync="showDeleteDialog"
+              :dialog-movie-id.sync="dialogMovieId"
+            />
+          </v-row>
+        </v-col>
+      </v-row>
       <v-btn
         color="accent"
         fab
