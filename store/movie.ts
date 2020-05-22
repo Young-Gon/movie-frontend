@@ -1,7 +1,7 @@
 import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators"
 import Vue from "vue"
 import { $axios } from "~/utils/api"
-import Movie from "@/src/Movie"
+import Movie from "~/src/Movie"
 
 @Module({
   name: "movie",
