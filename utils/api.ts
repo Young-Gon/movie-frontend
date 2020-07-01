@@ -3,7 +3,8 @@ import { NuxtAxiosInstance } from "@nuxtjs/axios"
 let $axios: NuxtAxiosInstance
 
 export function initializeAxios(axiosInstance: NuxtAxiosInstance) {
-  axiosInstance.defaults.baseURL = "https://gondev.xyz"
+  console.log(process.env.BASE_URL)
+  axiosInstance.defaults.baseURL = process.env.BASE_URL
   $axios = axiosInstance
 }
 

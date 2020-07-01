@@ -52,8 +52,8 @@
               <v-col cols="12" sm="6">
                 <v-row>
                   <v-img
-                    v-if="movie.thumb != null"
-                    :src="movie.thumb"
+                    v-if="movie.image != null"
+                    :src="movie.image"
                     aspect-ratio="0.85"
                     class="grey lighten-2"
                     max-width="50"
