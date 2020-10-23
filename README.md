@@ -1,4 +1,4 @@
-# Movie-Backend
+# Movie-Frontend
 이 프로젝트는 개인적으로 만든 간단한 영화 정보를 입력하는 관리자 화면입니다
 ![screenshot](./image/screenshot.png)
 
